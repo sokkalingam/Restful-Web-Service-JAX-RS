@@ -8,6 +8,10 @@ public class Link {
 		this.ref = ref;
 	}
 	
+	public Link() {
+		
+	}
+	
 	private String link;
 	private String ref;
 	

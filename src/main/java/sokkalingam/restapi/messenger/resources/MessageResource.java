@@ -48,11 +48,11 @@ public class MessageResource {
 	public Response addMessage(Message message, @Context UriInfo uriInfo){
 		message = messageService.addMessage(message);
 		URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(message.getId())).build();
-//		List<Link> links = new ArrayList<Link>();
-//		links.add(new Link(getLinkForMessage(message, uriInfo), "self"));
-//		links.add(new Link(getLinkForProfile(message, uriInfo), "profile"));
-//		links.add(new Link(getLinkForComments(message, uriInfo), "comments"));
-//		message.setLinks(links);
+		List<Link> links = new ArrayList<Link>();
+		links.add(new Link(getLinkForMessage(message, uriInfo), "self"));
+		links.add(new Link(getLinkForProfile(message, uriInfo), "profile"));
+		links.add(new Link(getLinkForComments(message, uriInfo), "comments"));
+		message.setLinks(links);
 		return Response.created(uri).entity(message).build();
 	}
 	
@@ -100,8 +100,9 @@ public class MessageResource {
 	public String getLinkForComments(Message message, UriInfo uriInfo) {
 		return uriInfo.getBaseUriBuilder()
 				.path(MessageResource.class)
-				.path(String.valueOf(message.getId()))
 				.path(MessageResource.class, "getCommentResource")
+				.path(CommentResource.class)
+				.resolveTemplate("messageId", message.getId())
 				.build().toString();
 	}
 	

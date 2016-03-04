@@ -27,10 +27,15 @@ public class CommentService {
 	}
 	
 	public Comment addComment(long messageId, Comment comment) {
-		Map<Long, Comment> commentMap = messages.get(messageId).getComments();
-		comment.setId(Long.valueOf(commentMap.size() + 1));
-		commentMap.put(comment.getId(), comment);
-		return comment;
+		Message message = messages.get(messageId);
+		Map<Long, Comment> commentMap = null;
+		if (message != null) {
+			commentMap = message.getComments();
+			comment.setId(Long.valueOf(commentMap.size() + 1));
+			commentMap.put(comment.getId(), comment);
+			return comment;
+		}
+		return null;
 	}
 	
 	public Comment updateComment(long messageId, long commentId, Comment comment) {
