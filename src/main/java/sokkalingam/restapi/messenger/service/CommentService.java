@@ -11,10 +11,11 @@ import sokkalingam.restapi.messenger.model.Message;
 public class CommentService {
 	
 	Map<Long, Message> messages = DatabaseClass.getMessages();
+	Message message = null;
 	Map<Long, Comment> commentMap = null;
 	
 	public List<Comment> getComments(long messageId) {
-		Message message = messages.get(messageId);
+		message = messages.get(messageId);
 		if (message != null) {
 			commentMap = message.getComments();
 			return new ArrayList<Comment>(commentMap.values());
@@ -23,12 +24,15 @@ public class CommentService {
 	}
 	
 	public Comment getComment(long messageId, long commentId) {
-		return messages.get(messageId).getComments().get(commentId);
+		message = messages.get(messageId);
+		if (message != null)
+			return message.getComments().get(commentId);
+		return null;
 	}
 	
 	public Comment addComment(long messageId, Comment comment) {
-		Message message = messages.get(messageId);
-		Map<Long, Comment> commentMap = null;
+		message = messages.get(messageId);
+		
 		if (message != null) {
 			commentMap = message.getComments();
 			comment.setId(Long.valueOf(commentMap.size() + 1));
@@ -39,14 +43,25 @@ public class CommentService {
 	}
 	
 	public Comment updateComment(long messageId, long commentId, Comment comment) {
-		Map<Long, Comment> commentMap = messages.get(messageId).getComments();
-		comment.setId(commentId);
-		commentMap.put(comment.getId(), comment);
-		return comment;
+		message = messages.get(messageId);
+		
+		if (message != null) {
+			commentMap = message.getComments();
+			comment.setId(commentId);
+			commentMap.put(comment.getId(), comment);
+			return comment;
+		}
+		
+		return null;
 	}
 	
 	public Comment deleteComment(long messageId, long commentId) {
-		return messages.get(messageId).getComments().remove(commentId);
+		message = messages.get(messageId);
+		if (message != null) {
+			commentMap = message.getComments();
+			return commentMap.remove(commentId);
+		}
+		return null;
 	}
 
 }
