@@ -11,10 +11,15 @@ import sokkalingam.restapi.messenger.model.Message;
 public class CommentService {
 	
 	Map<Long, Message> messages = DatabaseClass.getMessages();
+	Message message = null;
 	Map<Long, Comment> commentMap = null;
 	
+	/**Get all comments
+	 * @param messageId
+	 * @return
+	 */
 	public List<Comment> getComments(long messageId) {
-		Message message = messages.get(messageId);
+		message = messages.get(messageId);
 		if (message != null) {
 			commentMap = message.getComments();
 			return new ArrayList<Comment>(commentMap.values());
@@ -22,26 +27,66 @@ public class CommentService {
 		return new ArrayList<Comment>();
 	}
 	
+	/**Get a comment that belongs to a message
+	 * @param messageId
+	 * @param commentId
+	 * @return
+	 */
 	public Comment getComment(long messageId, long commentId) {
-		return messages.get(messageId).getComments().get(commentId);
+		message = messages.get(messageId);
+		if (message != null)
+			return message.getComments().get(commentId);
+		return null;
 	}
 	
+	/**Add a comment to a message
+	 * @param messageId
+	 * @param comment
+	 * @return
+	 */
 	public Comment addComment(long messageId, Comment comment) {
-		Map<Long, Comment> commentMap = messages.get(messageId).getComments();
-		comment.setId(Long.valueOf(commentMap.size() + 1));
-		commentMap.put(comment.getId(), comment);
-		return comment;
+		message = messages.get(messageId);
+		
+		if (message != null) {
+			commentMap = message.getComments();
+			comment.setId(Long.valueOf(commentMap.size() + 1));
+			commentMap.put(comment.getId(), comment);
+			return comment;
+		}
+		return null;
 	}
 	
+	/**Update comment for a message
+	 * @param messageId
+	 * @param commentId
+	 * @param comment
+	 * @return
+	 */
 	public Comment updateComment(long messageId, long commentId, Comment comment) {
-		Map<Long, Comment> commentMap = messages.get(messageId).getComments();
-		comment.setId(commentId);
-		commentMap.put(comment.getId(), comment);
-		return comment;
+		message = messages.get(messageId);
+		
+		if (message != null) {
+			commentMap = message.getComments();
+			comment.setId(commentId);
+			commentMap.put(comment.getId(), comment);
+			return comment;
+		}
+		
+		return null;
 	}
 	
+	/**Delete a comment from a message
+	 * @param messageId
+	 * @param commentId
+	 * @return
+	 */
 	public Comment deleteComment(long messageId, long commentId) {
-		return messages.get(messageId).getComments().remove(commentId);
+		message = messages.get(messageId);
+		if (message != null) {
+			commentMap = message.getComments();
+			return commentMap.remove(commentId);
+		}
+		return null;
 	}
 
 }
