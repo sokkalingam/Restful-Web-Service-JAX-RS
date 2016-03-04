@@ -14,6 +14,10 @@ public class CommentService {
 	Message message = null;
 	Map<Long, Comment> commentMap = null;
 	
+	/**Get all comments
+	 * @param messageId
+	 * @return
+	 */
 	public List<Comment> getComments(long messageId) {
 		message = messages.get(messageId);
 		if (message != null) {
@@ -23,6 +27,11 @@ public class CommentService {
 		return new ArrayList<Comment>();
 	}
 	
+	/**Get a comment that belongs to a message
+	 * @param messageId
+	 * @param commentId
+	 * @return
+	 */
 	public Comment getComment(long messageId, long commentId) {
 		message = messages.get(messageId);
 		if (message != null)
@@ -30,6 +39,11 @@ public class CommentService {
 		return null;
 	}
 	
+	/**Add a comment to a message
+	 * @param messageId
+	 * @param comment
+	 * @return
+	 */
 	public Comment addComment(long messageId, Comment comment) {
 		message = messages.get(messageId);
 		
@@ -42,6 +56,12 @@ public class CommentService {
 		return null;
 	}
 	
+	/**Update comment for a message
+	 * @param messageId
+	 * @param commentId
+	 * @param comment
+	 * @return
+	 */
 	public Comment updateComment(long messageId, long commentId, Comment comment) {
 		message = messages.get(messageId);
 		
@@ -55,6 +75,11 @@ public class CommentService {
 		return null;
 	}
 	
+	/**Delete a comment from a message
+	 * @param messageId
+	 * @param commentId
+	 * @return
+	 */
 	public Comment deleteComment(long messageId, long commentId) {
 		message = messages.get(messageId);
 		if (message != null) {
