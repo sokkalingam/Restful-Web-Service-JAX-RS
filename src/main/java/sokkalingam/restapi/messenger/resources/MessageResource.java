@@ -1,6 +1,7 @@
 package sokkalingam.restapi.messenger.resources;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.BeanParam;
@@ -18,6 +19,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import sokkalingam.restapi.messenger.beans.MessageFilterBean;
+import sokkalingam.restapi.messenger.model.Link;
 import sokkalingam.restapi.messenger.model.Message;
 import sokkalingam.restapi.messenger.service.MessageService;
 
@@ -46,6 +48,11 @@ public class MessageResource {
 	public Response addMessage(Message message, @Context UriInfo uriInfo){
 		message = messageService.addMessage(message);
 		URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(message.getId())).build();
+//		List<Link> links = new ArrayList<Link>();
+//		links.add(new Link(getLinkForMessage(message, uriInfo), "self"));
+//		links.add(new Link(getLinkForProfile(message, uriInfo), "profile"));
+//		links.add(new Link(getLinkForComments(message, uriInfo), "comments"));
+//		message.setLinks(links);
 		return Response.created(uri).entity(message).build();
 	}
 	
@@ -74,6 +81,28 @@ public class MessageResource {
 	@Path("/{messageId}/comments")
 	public CommentResource getCommentResource() {
 		return new CommentResource();
+	}
+	
+	public String getLinkForMessage(Message message, UriInfo uriInfo) {
+		return uriInfo.getBaseUriBuilder()
+				.path(MessageResource.class)
+				.path(String.valueOf(message.getId()))
+				.build().toString();
+	}
+	
+	public String getLinkForProfile(Message message, UriInfo uriInfo) {
+		return uriInfo.getBaseUriBuilder()
+				.path(ProfileResource.class)
+				.path(message.getAuthor())
+				.build().toString();
+	}
+	
+	public String getLinkForComments(Message message, UriInfo uriInfo) {
+		return uriInfo.getBaseUriBuilder()
+				.path(MessageResource.class)
+				.path(String.valueOf(message.getId()))
+				.path(MessageResource.class, "getCommentResource")
+				.build().toString();
 	}
 	
 
