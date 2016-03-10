@@ -55,6 +55,13 @@ public class ProfileResource {
 		profileService.removeProfile(profileName);
 	}
 	
+	@Path("/{profileName}/messages")
+	public MessageResource getMessageResource() {
+		return new MessageResource();
+	}
+	
+	
+	
 
 
 

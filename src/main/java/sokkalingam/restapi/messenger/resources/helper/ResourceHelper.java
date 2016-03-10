@@ -19,7 +19,7 @@ public class ResourceHelper {
 	public static String getLinkForProfile(Message message, UriInfo uriInfo) {
 		return uriInfo.getBaseUriBuilder()
 				.path(ProfileResource.class)
-				.path(message.getAuthor())
+				.path(message.getProfileName())
 				.build().toString();
 	}
 	
