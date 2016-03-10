@@ -16,45 +16,44 @@ import javax.ws.rs.core.MediaType;
 import sokkalingam.restapi.messenger.model.Comment;
 import sokkalingam.restapi.messenger.service.CommentService;
 
-@Path("/")
 public class CommentResource {
 	
 	CommentService commentService = new CommentService();
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Comment> getComments(@PathParam("messageId") long messageId) {
-		return new ArrayList<Comment>(commentService.getComments(messageId));
+	public List<Comment> getComments(@PathParam("profileName") String profile, @PathParam("messageId") long messageId) {
+		return new ArrayList<Comment>(commentService.getComments(profile, messageId));
 	}
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("{commentId}")
-	public Comment getComment(@PathParam("messageId") long messageId, @PathParam("commentId") long commentId) {
-		return commentService.getComment(messageId, commentId);
+	public Comment getComment(@PathParam("profileName") String profile, @PathParam("messageId") long messageId, @PathParam("commentId") long commentId) {
+		return commentService.getComment(profile, messageId, commentId);
 	}
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Comment postComment(@PathParam("messageId") long messageId, Comment comment) {
-		return commentService.addComment(messageId, comment);
+	public Comment postComment(@PathParam("profileName") String profile, @PathParam("messageId") long messageId, Comment comment) {
+		return commentService.addComment(profile, messageId, comment);
 	}
 	
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("{commentId}")
-	public Comment updateComment(@PathParam("messageId") long messageId, @PathParam("commentId") long commentId, Comment comment) {
-		return commentService.updateComment(messageId, commentId, comment);
+	public Comment updateComment(@PathParam("profileName") String profile, @PathParam("messageId") long messageId, @PathParam("commentId") long commentId, Comment comment) {
+		return commentService.updateComment(profile, messageId, commentId, comment);
 	}
 	
 	@DELETE
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("{commentId}")
-	public Comment deleteComment(@PathParam("messageId") long messageId, @PathParam("commentId") long commentId) {
-		return commentService.deleteComment(messageId, commentId);
+	public Comment deleteComment(@PathParam("profileName") String profile, @PathParam("messageId") long messageId, @PathParam("commentId") long commentId) {
+		return commentService.deleteComment(profile, messageId, commentId);
 	}
 	
 	

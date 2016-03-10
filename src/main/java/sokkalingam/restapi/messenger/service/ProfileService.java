@@ -1,7 +1,6 @@
 package sokkalingam.restapi.messenger.service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -14,8 +13,7 @@ public class ProfileService {
 	private Map<String, Profile> profiles = DatabaseClass.getProfiles();
 	
 	public ProfileService() {
-		profiles.put("lings24", new Profile(1L, "lings24", "Sokkalingam", "Subramanian", new Date()));
-		profiles.put("brahmi", new Profile(2L, "brahmi", "Brahmi", "Reddy", new Date()));
+		
 	}
 	
 	/**Get all profiles

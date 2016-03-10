@@ -13,9 +13,9 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Message {
 	
 	private Long id;
-	private String message;
-	private String author;
+	private String text;
 	private Date createdAt;
+	private String profileName;
 	private Map<Long, Comment> comments = new HashMap<Long, Comment>();
 	private List<Link> links = new ArrayList<Link>();
 	
@@ -23,11 +23,10 @@ public class Message {
 		createdAt = new Date();
 	}
 	
-	public Message(Long id, String message, String author) {
+	public Message(Long id, String text, String author) {
 		super();
 		this.id = id;
-		this.message = message;
-		this.author = author;
+		this.text = text;
 		this.createdAt = new Date();
 	}
 	
@@ -37,18 +36,13 @@ public class Message {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getMessage() {
-		return message;
+	public String getText() {
+		return text;
 	}
-	public void setMessage(String message) {
-		this.message = message;
+	public void setText(String message) {
+		this.text = message;
 	}
-	public String getAuthor() {
-		return author;
-	}
-	public void setAuthor(String author) {
-		this.author = author;
-	}
+
 	public Date getCreatedAt() {
 		return createdAt;
 	}
@@ -71,6 +65,14 @@ public class Message {
 
 	public void setLinks(List<Link> links) {
 		this.links = links;
+	}
+
+	public String getProfileName() {
+		return profileName;
+	}
+
+	public void setProfileName(String profileName) {
+		this.profileName = profileName;
 	}
 	
 	

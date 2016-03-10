@@ -1,8 +1,11 @@
 package sokkalingam.restapi.messenger.model;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 @XmlRootElement
 public class Profile {
@@ -12,19 +15,7 @@ public class Profile {
 	private String firstname;
 	private String lastname;
 	private Date createdAt;
-	
-	public Profile() {
-		
-	}
-	
-	public Profile(Long id, String profileName, String firstname, String lastname, Date createdAt) {
-		super();
-		this.id = id;
-		this.profileName = profileName;
-		this.firstname = firstname;
-		this.lastname = lastname;
-		this.createdAt = createdAt;
-	}
+	private Map<Long, Message> messages = new HashMap<Long, Message>();
 	
 	public Long getId() {
 		return id;
@@ -55,6 +46,13 @@ public class Profile {
 	}
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
+	}
+	@XmlTransient
+	public Map<Long, Message> getMessages() {
+		return messages;
+	}
+	public void setMessages(Map<Long, Message> messages) {
+		this.messages = messages;
 	}
 	
 	

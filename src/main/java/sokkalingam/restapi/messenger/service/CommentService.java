@@ -4,22 +4,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import sokkalingam.restapi.messenger.database.DatabaseClass;
 import sokkalingam.restapi.messenger.model.Comment;
 import sokkalingam.restapi.messenger.model.Message;
 
 public class CommentService {
 	
-	Map<Long, Message> messages = DatabaseClass.getMessages();
+	MessageService messageService;
 	Message message = null;
 	Map<Long, Comment> commentMap = null;
+	
+	public CommentService() {
+		messageService = new MessageService();
+	}
 	
 	/**Get all comments
 	 * @param messageId
 	 * @return
 	 */
-	public List<Comment> getComments(long messageId) {
-		message = messages.get(messageId);
+	public List<Comment> getComments(String profile, long messageId) {
+		message = messageService.getMessage(profile, messageId);
 		if (message != null) {
 			commentMap = message.getComments();
 			return new ArrayList<Comment>(commentMap.values());
@@ -32,8 +35,8 @@ public class CommentService {
 	 * @param commentId
 	 * @return
 	 */
-	public Comment getComment(long messageId, long commentId) {
-		message = messages.get(messageId);
+	public Comment getComment(String profile, long messageId, long commentId) {
+		message = messageService.getMessage(profile, messageId);
 		if (message != null)
 			return message.getComments().get(commentId);
 		return null;
@@ -44,8 +47,8 @@ public class CommentService {
 	 * @param comment
 	 * @return
 	 */
-	public Comment addComment(long messageId, Comment comment) {
-		message = messages.get(messageId);
+	public Comment addComment(String profile, long messageId, Comment comment) {
+		message = messageService.getMessage(profile, messageId);
 		
 		if (message != null) {
 			commentMap = message.getComments();
@@ -62,8 +65,8 @@ public class CommentService {
 	 * @param comment
 	 * @return
 	 */
-	public Comment updateComment(long messageId, long commentId, Comment comment) {
-		message = messages.get(messageId);
+	public Comment updateComment(String profile, long messageId, long commentId, Comment comment) {
+		message = messageService.getMessage(profile, messageId);
 		
 		if (message != null) {
 			commentMap = message.getComments();
@@ -80,8 +83,8 @@ public class CommentService {
 	 * @param commentId
 	 * @return
 	 */
-	public Comment deleteComment(long messageId, long commentId) {
-		message = messages.get(messageId);
+	public Comment deleteComment(String profile, long messageId, long commentId) {
+		message = messageService.getMessage(profile, messageId);
 		if (message != null) {
 			commentMap = message.getComments();
 			return commentMap.remove(commentId);
