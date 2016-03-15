@@ -10,7 +10,9 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.UriInfo;
 
 import sokkalingam.restapi.messenger.model.Profile;
 import sokkalingam.restapi.messenger.service.ProfileService;
@@ -19,6 +21,9 @@ import sokkalingam.restapi.messenger.service.ProfileService;
 public class ProfileResource {
 	
 	private ProfileService profileService = new ProfileService();
+	
+	@Context
+	private UriInfo uriInfo;
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -30,7 +35,7 @@ public class ProfileResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Profile addProfile(Profile profile){
-		return profileService.addProfile(profile);
+		return profileService.addProfile(profile, uriInfo);
 	}
 	
 	@GET
