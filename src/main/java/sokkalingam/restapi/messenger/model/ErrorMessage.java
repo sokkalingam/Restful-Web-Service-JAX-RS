@@ -1,16 +1,18 @@
 package sokkalingam.restapi.messenger.model;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class ErrorMessage {
 	
-	public ErrorMessage() {
-		
-	}
+	public ErrorMessage() { }
 	
 	public ErrorMessage(Integer code, String message) {
 		super();
 		this.code = code;
 		this.message = message;
 	}
+	
 	private Integer code;
 	private String message;
 	

@@ -4,8 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.ws.rs.core.UriInfo;
+
 import sokkalingam.restapi.messenger.database.DatabaseClass;
+import sokkalingam.restapi.messenger.model.Link;
 import sokkalingam.restapi.messenger.model.Profile;
+import sokkalingam.restapi.messenger.resources.ProfileResource;
 
 public class ProfileService {
 
@@ -35,7 +39,8 @@ public class ProfileService {
 	 * @param profile
 	 * @return
 	 */
-	public Profile addProfile(Profile profile) {
+	public Profile addProfile(Profile profile, UriInfo uriInfo) {
+		profile.getLinks().addAll(_getLinks(profile, uriInfo));
 		profile.setId((long) profiles.size() + 1);
 		profiles.put(profile.getProfileName(), profile);
 		return profile;
@@ -57,6 +62,16 @@ public class ProfileService {
 	 */
 	public Profile removeProfile(String userName) {
 		return profiles.remove(userName);
+	}
+	
+	private List<Link> _getLinks(Profile profile, UriInfo uriInfo) {
+		List<Link> links = new ArrayList<Link>();
+		String profileLink = uriInfo.getAbsolutePathBuilder().path(profile.getProfileName()).build().toString();
+		links.add(new Link(profileLink, "self"));
+		String messagesLink = uriInfo.getAbsolutePathBuilder().path(ProfileResource.class, "getMessageResource")
+				.resolveTemplate("profileName", profile.getProfileName()).build().toString();
+		links.add(new Link(messagesLink, "messages"));
+		return links;
 	}
 
 
